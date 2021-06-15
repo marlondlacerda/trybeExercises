@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+
+</head>
+<body>
+  <form action="#" class="js-form form">
+    <fieldset>
+      <div class="form-floating mb-3">
+        <input type="text" class="form__input form-control" placeholder="Enter your name" autocomplete="off" data-validate-field="name" name="name" id="name" autocomplete="off" data-validate-field="name">
+        <label class="form-label" for="name">Nome:</label>
+      </div>
+      <div class="form-floating">
+        <input class="form__input form-control" type="email" id="email" required maxlength="50" placeholder="Digite seu e-mail aqui!" name="email" autocomplete="off" data-validate-field="email">
+        <label class="form-label" for="email">E-mail:</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input class="form__input form-control" type="text" id="cpf" autocomplete="off" data-validate-field="" required placeholder="Digite seu CPF aqui!" maxlength="11" name="cpf">
+        <label class="form-label" for="cpf">CPF:</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" name="adress" id="adress" required placeholder="Digite seu Endereço." rows="10" cols="40" maxlength="200">
+        <label class="form-label" for="adress">Endereço:</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" name="citty" id="citty" placeholder="Digite seu Cidade." maxlength="28" required>
+        <label class="form-label" for="citty">Cidade:</label>
+      </div>
+      <div class="form-floating mb-3">
+        <select class="form-select" name="estado" id="estados" required></select>
+        <label class="form-label" for="estados">Estado:</label>
+      </div>
+      <div>
+        <legend>Tipo</legend>
+        <input class="form-check-input" type="radio" id="casa" value="casa" required name="tipo">
+        <label class="form-check-label" for="casa">Casa</label>
+
+        <input class="form-check-input" type="radio" id="apt" value="apt" required name="tipo">
+        <label class="form-check-label" for="apt">Apartamento</label>
+
+        <input class="form-check-input" type="radio" id="outro" value="outro" required name="tipo">
+        <label class="form-check-label" for="outro">Outro</label>
+
+      </div>
+    </fieldset>
+    <fieldset>
+      <div class="form-floating mb-3">
+        <textarea class="form-control" name="curriculo" id="curriculo" placeholder="Digite aqui." maxlength="1000" required></textarea>
+        <label class="form-label" for="curriculo">Resumo do currículo:</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" id="cargo" required maxlength="40" placeholder="Digite o Cargo desejado." name="cargo">
+        <label class="form-label" for="cargo">Cargo:</label>
+
+      </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" id="descricao" required maxlength="500" placeholder="Digite a Descrição do Cargo desejado" name="descricao">
+        <label for="descricao">Descrição do Cargo:</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" id="datepicker" name="date" required>
+        <label for="date">Data de Início:</label>
+      </div>
+    </fieldset>
+    <button class="btn btn-primary" type="submit" id="buttonSubmit">ENVIAR INSCRIÇÃO</button>
+    <button class="btn btn-danger" type="reset">RESETAR</button>
+  </form>
+  <div>
+  </div>
+  <script src="js/script.js"></script>
+  <script src="js/moment.js"></script>
+  <script src="js/pikaday.js"></script>
+  <script>
+    var picker = new Pikaday({
+        field: document.getElementById('datepicker'),
+        format: 'D MMM YYYY',
+        onSelect: function() {
+            console.log(this.getMoment().format('Do MMMM YYYY'));
+        }
+    });
+</script>
+<script src="js/just-validate.min.js"></script>
+
+<script>
+  new window.JustValidate('.js-form', {
+      rules: {
+          radio: {
+              required: true
+          },
+          checkbox: {
+              required: true
+          },
+          checkbox2: {
+              required: true
+          },
+          email: {
+              required: true,
+              email: true,
+          }
+      },
+
+      submitHandler: function (form, values, ajax) {
+          ajax({
+              url: 'https://just-validate-api.herokuapp.com/submit',
+              method: 'POST',
+              data: values,
+              async: true,
+              callback: function (response) {
+                  alert('AJAX submit successful! \nResponse from server:' + response)
+              },
+              error: function (response) {
+                  alert('AJAX submit error! \nResponse from server:' + response)
+              }
+          });
+      },
+  });
+
+  new window.JustValidate('.js-form-2', {
+          rules: {
+              email: {
+                  required: true,
+                  email: true,
+                  remote: {
+                      url: 'https://just-validate-api.herokuapp.com/check-correct',
+                      sendParam: 'email',
+                      successAnswer: 'OK',
+                      method: 'GET'
+                  }
+              },
+              login: {
+                  required: true,
+                  remote: {
+                      url: 'https://just-validate-api.herokuapp.com/check-correct',
+                      sendParam: 'login',
+                      successAnswer: 'OK',
+                      method: 'GET'
+                  }
+              }
+          },
+          messages: {
+              email: {
+                  remote: 'Email already exist',
+                  email: 'Email not valid!'
+              },
+              login: {
+                  remote: 'Login already exist',
+                  required: 'Login is required!'
+              }
+          },
+      }
+  );
+</script>
+
+</body>
+</html>
