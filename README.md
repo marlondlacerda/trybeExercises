@@ -1,2 +1,2 @@
-# trybeExercsies
+# trybeExercises
 Exercícios da Trybe
