@@ -1,0 +1,60 @@
+const order = {
+  name: 'Rafael Andrade',
+  phoneNumber: '11-98763-1416',
+  address: {
+    street: 'Rua das Flores',
+    number: '389',
+    apartment: '701',
+  },
+  order: {
+    pizza: {
+      margherita: {
+        amount: 1,
+        price: 25,
+      },
+      pepperoni: {
+        amount: 1,
+        price: 20,
+      }
+    },
+    drinks: {
+      coke: {
+        type: 'Coca-Cola Zero',
+        price: 10,
+        amount: 1,
+      }
+    },
+    delivery: {
+      deliveryPerson: 'Ana Silveira',
+      price: 5,
+    }
+  },
+  payment: {
+    total: 60,
+  },
+};
+// ===== Parte 1
+const customerInfo = (order) => {
+  // Adicione abaixo as informações necessárias.
+  console.log(`Olá ${order['order'].delivery.deliveryPerson}, entrega para: ${order.name}, Telefone: ${order.phoneNumber}, R. ${order.address.street}, Ṇº ${order.address.number}, AP: ${order.address.apartment}`);
+}
+
+customerInfo(order);
+
+// ======= Parte 2
+const orderModifier = (order) => {
+  // Adicione abaixo as informações necessárias.
+  const name = { 
+    name: 'Luiz Silva',
+  }
+  const total = {
+    payment: {
+      total: 50,
+    }
+  }
+  const clone = Object.assign(order, name, total)
+
+  console.log(`Olá ${clone.name}, o total do seu pedido de muzzarella, calabresa e Coca-Cola Zero é R$ ${clone['payment'].total}.`);
+}
+
+orderModifier(order);
